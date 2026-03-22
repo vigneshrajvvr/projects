@@ -150,6 +150,33 @@ flowchart TD
 
 ---
 
+## Design Decisions (Why?)
+
+### 1. React + Vite + TypeScript (Frontend)
+- **Why React?** Massive ecosystem for 3D integration (via `react-three-fiber`), modular components for the HUD, and industry standard.
+- **Why Vite instead of CRA?** Instant dev server startup and extremely fast Hot Module Replacement (HMR). CRA is slow and deprecated.
+- **Why TypeScript?** Real-time tracking of complex objects (satellites, telemetry) requires strict typing to avoid runtime bugs when handling thousands of data points.
+
+### 2. Three.js & React-Three-Fiber (3D Engine)
+- **Why Three.js?** Rendering 20,000+ objects simultaneously requires direct WebGL access for performance. Vanilla HTML/Canvas would bottleneck.
+- **Why React-Three-Fiber?** Allows writing Three.js code declaratively as React components, seamlessly binding the 3D scene state to React's UI state.
+
+### 3. Spring Boot (Backend)
+- **Why Java/Spring Boot?** Excellent for robust, multi-threaded tasks—specifically scheduling background TLE fetching, running continuous SGP4 orbit math, and handling thousands of concurrent WebSocket connections.
+
+### 4. Apache Kafka (Message Broker)
+- **Why Kafka?** High-throughput data streaming. The system continuously streams position data to the ML engine and reads enriched data back. Kafka prevents bottlenecks and decouples the Java backend from the Python service.
+
+### 5. Python & FastAPI (ML Service)
+- **Why Python?** The standard ecosystem for machine learning (scikit-learn for DBSCAN clustering, XGBoost for risk scoring).
+- **Why a separate microservice?** Keeps heavy ML dependencies isolated. Allows the ML layer to scale independently if collision computations become CPU-heavy.
+- **Why FastAPI?** Lightweight, async by default, and handles payload serialization much faster than older Python web frameworks.
+
+### 6. WebSockets (Communication)
+- **Why WebSockets over REST?** Plotting moving objects requires continuous data. Polling a REST API every second creates massive HTTP overhead. WebSockets keep a single persistent connection open for real-time pushing.
+
+---
+
 ## Phased Build Plan
 
 ```

@@ -9,7 +9,7 @@ AstroSentinel tracks and visualizes thousands of orbital debris objects in real-
 ## Tech Stack
 
 | Layer | Technology |
-|---|---|
+|-------|------------|
 | Frontend | React + Vite + Three.js (react-three-fiber) |
 | Backend | Spring Boot (Java) |
 | ML Service | Python FastAPI |

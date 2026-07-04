@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: astrosentinel
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: health

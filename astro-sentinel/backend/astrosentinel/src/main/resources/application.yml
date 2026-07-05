@@ -11,3 +11,7 @@ management:
       base-path: /
       exposure:
         include: health
+
+app:
+  data:
+    gp-file: /data/sample-gp.json
